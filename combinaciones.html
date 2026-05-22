@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculador de Combinaciones Complejas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilos/styles.css" />
+  <style>
+    .formula-box          { border-left-color: var(--accent3); }
+    .formula-box .formula { color: var(--accent3); }
+    input[type="number"]:focus {
+      border-color: var(--accent3);
+      box-shadow: 0 0 0 3px rgba(123,140,222,0.12);
+    }
+    .btn-calcular         { background: var(--accent3); }
+    .sim-header .badge    { border-color: rgba(123,140,222,0.3); color: var(--accent3); opacity: 0.8; }
+
+    .grupo-label {
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent3);
+      margin-bottom: 16px;
+      opacity: 0.8;
+    }
+
+    .campos-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .res-parciales {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .res-parcial {
+      background: rgba(123,140,222,0.08);
+      border: 1px solid rgba(123,140,222,0.2);
+      border-radius: 10px;
+      padding: 12px 14px;
+      text-align: center;
+    }
+
+    .res-parcial .p-label {
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      color: var(--accent3);
+      opacity: 0.7;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .res-parcial .p-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .res-total-label {
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ok-tx);
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+
+    .res-total-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--ok-tx);
+      word-break: break-all;
+      line-height: 1.2;
+    }
+
+    .res-total-desc {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrap">
+
+    <a href="index.html" class="back-btn">← Volver al inicio</a>
+
+    <div class="sim-header">
+      <div class="badge">Ejercicio 02</div>
+      <h1>Combinaciones<br /><span class="hl-blue">Complejas</span></h1>
+    </div>
+
+    <div class="sim-box">
+
+      <div class="formula-box">
+        <div class="label">Fórmula General de Combinaciones</div>
+        <div class="formula">C(n, r) = n! / (r! × (n − r)!)</div>
+      </div>
+
+      <form id="form-comb" onsubmit="return false;">
+
+        <div class="grupo-label">Grupo 1 — C(n1, r1)</div>
+        <div class="campos-2col" style="margin-bottom: 28px;">
+          <div class="campo">
+            <label for="n1">n1 (total elementos)</label>
+            <input type="number" id="n1" value="59" min="0" required />
+          </div>
+          <div class="campo">
+            <label for="r1">r1 (a elegir)</label>
+            <input type="number" id="r1" value="5" min="0" required />
+          </div>
+        </div>
+
+        <div class="divisor"><span>× multiplicado por</span></div>
+
+        <div class="grupo-label" style="margin-top: 28px;">Grupo 2 — C(n2, r2)</div>
+        <div class="campos-2col" style="margin-bottom: 28px;">
+          <div class="campo">
+            <label for="n2">n2 (total elementos)</label>
+            <input type="number" id="n2" value="35" min="0" required />
+          </div>
+          <div class="campo">
+            <label for="r2">r2 (a elegir)</label>
+            <input type="number" id="r2" value="1" min="0" required />
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn-calcular" onclick="calcularCombinaciones()">Calcular combinaciones</button>
+          <button type="button" class="btn-limpiar" onclick="limpiarComb()">✕</button>
+        </div>
+
+      </form>
+
+      <div id="resultado-comb" class="resultado-box oculto">
+        <div class="res-parciales">
+          <div class="res-parcial">
+            <div class="p-label">C(n1, r1)</div>
+            <div id="val-g1" class="p-val">—</div>
+          </div>
+          <div class="res-parcial">
+            <div class="p-label">C(n2, r2)</div>
+            <div id="val-g2" class="p-val">—</div>
+          </div>
+        </div>
+        <div class="res-total-label">Total de combinaciones posibles</div>
+        <div id="val-total" class="res-total-val">—</div>
+        <div class="res-total-desc">C(n1,r1) × C(n2,r2)</div>
+      </div>
+
+      <div id="error-comb" class="error-box oculto">
+        <p id="msg-comb">Error</p>
+      </div>
+
+    </div>
+
+    <div class="page-footer">Desafío Técnico de Programación Web — Ejercicio 02</div>
+
+  </div>
+
+  <script src="javascript/combinaciones.js"></script>
+
+</body>
+</html>

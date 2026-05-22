@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador de Transferencia de Calor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilos/styles.css" />
+  <style>
+    .formula-box       { border-left-color: var(--accent2); }
+    .formula-box .formula { color: var(--accent2); }
+    input[type="number"]:focus {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(240,160,75,0.12);
+    }
+    .btn-calcular      { background: var(--accent2); }
+    .sim-header .badge { border-color: rgba(240,160,75,0.3); color: var(--accent2); opacity: 0.8; }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrap">
+
+    <a href="index.html" class="back-btn">← Volver al inicio</a>
+
+    <div class="sim-header">
+      <div class="badge">Ejercicio 01</div>
+      <h1>Transferencia<br /><span class="hl-orange">de Calor</span></h1>
+    </div>
+
+    <div class="sim-box">
+
+      <div class="formula-box">
+        <div class="label">Fórmula — Ley de Enfriamiento de Newton</div>
+        <div class="formula">T = Ts + (T0 − Ts) × e<sup>(−k × t)</sup></div>
+      </div>
+
+      <form id="form-calor" onsubmit="return false;">
+        <div class="campos">
+
+          <div class="campo">
+            <label for="t0">Temperatura Inicial — T0 (°C)</label>
+            <input type="number" id="t0" placeholder="Ej: 120" required />
+          </div>
+
+          <div class="campo">
+            <label for="ts">Temperatura del Entorno — Ts (°C)</label>
+            <input type="number" id="ts" placeholder="Ej: 38" required />
+          </div>
+
+          <div class="campo">
+            <label for="k">Constante de Enfriamiento — k</label>
+            <input type="number" id="k" placeholder="Ej: 0.45" step="0.001" min="0.001" required />
+          </div>
+
+          <div class="campo">
+            <label for="t">Tiempo — t (horas)</label>
+            <input type="number" id="t" placeholder="Ej: 3" min="0" required />
+          </div>
+
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn-calcular" onclick="calcularCalor()">Calcular temperatura</button>
+          <button type="reset" class="btn-limpiar" onclick="limpiar('resultado-calor','error-calor')">✕</button>
+        </div>
+      </form>
+
+      <div id="resultado-calor" class="resultado-box oculto">
+        <div class="res-label">Temperatura final</div>
+        <div id="valor-calor" class="res-valor">-- °C</div>
+        <div class="res-desc">Resultado redondeado al entero más cercano</div>
+      </div>
+
+      <div id="error-calor" class="error-box oculto">
+        <p id="msg-calor">Error</p>
+      </div>
+
+    </div>
+
+    <div class="page-footer">Desafío Técnico de Programación Web — Ejercicio 01</div>
+
+  </div>
+
+  <script src="javascript/calor.js"></script>
+
+</body>
+</html>
